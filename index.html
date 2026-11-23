@@ -39,13 +39,54 @@
 
 
         /* =========================================================
-           RESET
+           RESET & BUTTON CLICK ANIMATIONS
         ========================================================= */
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
+        }
+
+        @keyframes btnPop {
+            0% {
+                transform: scale(1);
+            }
+            45% {
+                transform: scale(0.92);
+            }
+            75% {
+                transform: scale(1.03);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes modalReveal {
+            0% {
+                opacity: 0;
+                transform: translateY(14px) scale(0.97);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        button {
+            position: relative;
+            overflow: hidden;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        button:active {
+            transform: scale(0.93) !important;
+        }
+
+        button.clicked-anim {
+            animation: btnPop 0.34s cubic-bezier(0.22, 1, 0.36, 1);
+            box-shadow: 0 0 22px rgba(99, 102, 241, 0.55);
         }
 
 
@@ -69,7 +110,8 @@
 
 
         button,
-        input {
+        input,
+        select {
             font-family: inherit;
         }
 
@@ -95,13 +137,13 @@
             width: 100%;
 
             padding:
-                28px 40px 22px;
+                22px 40px 20px;
 
             border-bottom:
                 1px solid var(--border);
 
             background:
-                rgba(5, 7, 10, 0.55);
+                rgba(5, 7, 10, 0.65);
 
             backdrop-filter:
                 blur(20px);
@@ -122,6 +164,8 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
         }
 
 
@@ -151,7 +195,54 @@
             display: flex;
             align-items: center;
 
-            gap: 12px;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+
+        .nav-action-btn {
+            padding: 11px 16px;
+            border-radius: 13px;
+            border: 1px solid rgba(99, 102, 241, 0.45);
+            background: rgba(99, 102, 241, 0.12);
+            color: #ffffff;
+            font-size: 12px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1), background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .nav-action-btn:hover {
+            background: var(--accent);
+            border-color: var(--accent);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
+        }
+
+        .nav-action-btn.attendance-btn {
+            border-color: rgba(0, 242, 254, 0.4);
+            background: rgba(0, 242, 254, 0.1);
+            color: var(--success);
+        }
+
+        .nav-action-btn.attendance-btn:hover {
+            background: rgba(0, 242, 254, 0.22);
+            color: #ffffff;
+            box-shadow: 0 8px 20px rgba(0, 242, 254, 0.22);
+        }
+
+        .nav-action-btn.savings-btn {
+            border-color: rgba(129, 140, 248, 0.5);
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.18), rgba(0, 242, 254, 0.1));
+            color: #ffffff;
+        }
+
+        .nav-action-btn.savings-btn:hover {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.35), rgba(0, 242, 254, 0.2));
+            box-shadow: 0 8px 22px rgba(99, 102, 241, 0.32);
         }
 
 
@@ -309,7 +400,7 @@
 
             justify-content: center;
 
-            transition: 0.2s;
+            transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1), background 0.2s ease, border-color 0.2s ease;
         }
 
 
@@ -320,12 +411,8 @@
 
             border-color:
                 rgba(99, 102, 241, 0.5);
-        }
 
-
-        .calendar-btn:active {
-
-            transform: scale(0.92);
+            transform: translateY(-1px);
         }
 
 
@@ -388,7 +475,7 @@
 
             color: #d8d9df;
 
-            transition: 0.2s;
+            transition: transform 0.18s cubic-bezier(0.22, 1, 0.36, 1), background 0.2s ease;
         }
 
 
@@ -396,12 +483,25 @@
 
             background:
                 rgba(255, 255, 255, 0.06);
+
+            transform: scale(1.05);
+        }
+
+
+        .calendar-day:active {
+            transform: scale(0.92);
         }
 
 
         .calendar-day.empty {
 
             cursor: default;
+        }
+
+
+        .calendar-day.empty:hover {
+            transform: none;
+            background: transparent;
         }
 
 
@@ -648,7 +748,7 @@
 
             cursor: pointer;
 
-            transition: 0.2s;
+            transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1), background 0.2s ease;
         }
 
 
@@ -656,6 +756,8 @@
 
             background:
                 rgba(99, 102, 241, 0.16);
+
+            transform: translateY(-1px);
         }
 
 
@@ -732,7 +834,7 @@
             cursor: pointer;
 
             transition:
-                0.25s ease;
+                0.25s cubic-bezier(0.22, 1, 0.36, 1);
         }
 
 
@@ -745,7 +847,12 @@
                 rgba(255, 255, 255, 0.14);
 
             transform:
-                translateX(3px);
+                translateX(4px);
+        }
+
+
+        .task-content:active {
+            transform: scale(0.985) translateX(2px);
         }
 
 
@@ -860,7 +967,7 @@
 
             flex-shrink: 0;
 
-            transition: 0.2s;
+            transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), background 0.2s ease, border-color 0.2s ease;
         }
 
 
@@ -871,6 +978,8 @@
 
             border-color:
                 var(--success);
+
+            transform: scale(1.1);
 
             box-shadow:
                 0 0 12px
@@ -1085,7 +1194,7 @@
 
             cursor: pointer;
 
-            transition: 0.2s;
+            transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1), background 0.2s ease;
         }
 
 
@@ -1093,6 +1202,8 @@
 
             background:
                 #5558e8;
+
+            transform: translateY(-1px);
         }
 
 
@@ -1201,12 +1312,17 @@
             font-size: 12px;
 
             padding: 5px;
+
+            border-radius: 6px;
+
+            transition: transform 0.18s ease, color 0.18s ease, background 0.18s ease;
         }
 
 
         .delete-cost:hover {
 
             color: white;
+            background: rgba(255, 255, 255, 0.08);
         }
 
 
@@ -1310,6 +1426,304 @@
 
 
         /* =========================================================
+           MODALS (INCOME, ATTENDANCE, MONTHLY COST & SAVES)
+        ========================================================= */
+
+        .modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(2, 4, 8, 0.78);
+            backdrop-filter: blur(10px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            z-index: 200;
+            opacity: 0;
+            transition: opacity 0.22s ease;
+        }
+
+        .modal-backdrop.open {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-backdrop.open .modal-panel {
+            animation: modalReveal 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .modal-panel {
+            width: 100%;
+            max-width: 740px;
+            max-height: 88vh;
+            overflow-y: auto;
+            background: #0b0f19;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 24px;
+            padding: 24px;
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.65);
+        }
+
+        .modal-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 18px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .modal-head h3 {
+            font-size: 18px;
+            font-weight: 800;
+        }
+
+        .modal-close {
+            width: 34px;
+            height: 34px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            background: rgba(255, 255, 255, 0.04);
+            color: #ffffff;
+            font-size: 15px;
+            cursor: pointer;
+            transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1), background 0.2s ease;
+        }
+
+        .modal-close:hover {
+            background: rgba(255, 255, 255, 0.12);
+            transform: rotate(90deg);
+        }
+
+        .modal-stats-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+
+        .modal-stats-row.single-stat {
+            grid-template-columns: 1fr;
+        }
+
+        .mini-stat-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 14px 16px;
+        }
+
+        .mini-stat-box small {
+            display: block;
+            color: var(--text-dim);
+            font-size: 10px;
+            margin-bottom: 5px;
+        }
+
+        .mini-stat-box strong {
+            font-size: 18px;
+            color: var(--success);
+        }
+
+        .mini-stat-box.cost-box strong {
+            color: #f87171;
+        }
+
+        .mini-stat-box.deficit strong {
+            color: #fb7185;
+        }
+
+        .compare-section-title {
+            font-size: 13px;
+            font-weight: 800;
+            margin: 16px 0 10px;
+            color: var(--accent-light);
+        }
+
+        .compare-table-wrap {
+            overflow-x: auto;
+            border-radius: 14px;
+            border: 1px solid var(--border);
+            background: rgba(255, 255, 255, 0.02);
+            margin-bottom: 16px;
+        }
+
+        .compare-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 11px;
+        }
+
+        .compare-table th,
+        .compare-table td {
+            padding: 10px 12px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            white-space: nowrap;
+        }
+
+        .compare-table th {
+            color: var(--text-dim);
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .compare-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .compare-table tr.active-month-row {
+            background: rgba(99, 102, 241, 0.14);
+        }
+
+        .save-positive {
+            color: var(--success);
+            font-weight: 800;
+        }
+
+        .save-negative {
+            color: #fb7185;
+            font-weight: 800;
+        }
+
+        .twelve-days-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .twelve-day-box {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.12), rgba(0, 242, 254, 0.05));
+            border: 1px solid rgba(99, 102, 241, 0.32);
+            border-radius: 15px;
+            padding: 12px 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .twelve-day-box.completed {
+            border-color: var(--success);
+            background: linear-gradient(135deg, rgba(0, 242, 254, 0.16), rgba(99, 102, 241, 0.08));
+        }
+
+        .twelve-day-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 11px;
+            font-weight: 800;
+            color: var(--accent-light);
+        }
+
+        .twelve-day-badge {
+            font-size: 9px;
+            padding: 2px 7px;
+            border-radius: 999px;
+            background: rgba(99, 102, 241, 0.22);
+            color: #ffffff;
+        }
+
+        .twelve-day-box.completed .twelve-day-badge {
+            background: rgba(0, 242, 254, 0.25);
+            color: var(--success);
+        }
+
+        .twelve-day-count {
+            font-size: 16px;
+            font-weight: 800;
+            color: #ffffff;
+        }
+
+        .twelve-day-sub {
+            font-size: 10px;
+            color: var(--text-dim);
+        }
+
+        .tuition-form-grid {
+            display: grid;
+            grid-template-columns: 140px 1fr auto;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .tuition-form-grid input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border);
+            color: #ffffff;
+            border-radius: 11px;
+            padding: 10px 11px;
+            font-size: 11px;
+            outline: none;
+        }
+
+        .tuition-form-grid input:focus {
+            border-color: var(--accent);
+        }
+
+        .attendance-student-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+
+        .attendance-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 14px 16px;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+        }
+
+        .attendance-student-meta h4 {
+            font-size: 14px;
+            font-weight: 800;
+        }
+
+        .attendance-student-meta p {
+            font-size: 10px;
+            color: var(--text-dim);
+            margin-top: 3px;
+        }
+
+        .attendance-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .present-toggle-btn {
+            padding: 8px 14px;
+            border-radius: 11px;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            background: rgba(255, 255, 255, 0.05);
+            color: #ffffff;
+            font-size: 11px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1), background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+        }
+
+        .present-toggle-btn:hover {
+            transform: translateY(-1px);
+        }
+
+        .present-toggle-btn.is-present {
+            background: rgba(0, 242, 254, 0.18);
+            border-color: var(--success);
+            color: var(--success);
+        }
+
+
+        /* =========================================================
            REPORT BUTTON
         ========================================================= */
 
@@ -1354,7 +1768,7 @@
 
             z-index: 100;
 
-            transition: 0.2s;
+            transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.22s ease;
         }
 
 
@@ -1509,12 +1923,12 @@
             .header-right {
 
                 flex-direction:
-                    column;
+                    row;
 
                 align-items:
-                    flex-end;
+                    center;
 
-                gap: 6px;
+                gap: 8px;
             }
 
 
@@ -1572,6 +1986,15 @@
 
                 grid-template-columns:
                     105px 1fr;
+            }
+
+            .tuition-form-grid {
+                grid-template-columns: 1fr auto;
+            }
+
+            .modal-stats-row,
+            .twelve-days-grid {
+                grid-template-columns: 1fr;
             }
 
         }
@@ -1746,6 +2169,24 @@
 
             <div class="header-right">
 
+                <button
+                    class="nav-action-btn"
+                    onclick="openModal('incomeModal')">
+                    💰 Income from tuition
+                </button>
+
+                <button
+                    class="nav-action-btn attendance-btn"
+                    onclick="openModal('attendanceModal')">
+                    📋 Present at tuition
+                </button>
+
+                <button
+                    class="nav-action-btn savings-btn"
+                    onclick="openModal('monthlySavingsModal')">
+                    📊 Monthly Cost &amp; Saves
+                </button>
+
                 <div
                     class="date-badge"
                     id="header-date">
@@ -1794,7 +2235,7 @@
                         class="month-title"
                         id="monthTitle">
 
-                        August 2026
+                        November 2026
 
                     </div>
 
@@ -1908,83 +2349,51 @@
             <div class="quick-card">
 
                 <div class="quick-title">
-                    Routine Overview
+                    Weekly Slot Overview
                 </div>
 
-
                 <div class="quick-row">
-
-                    <span>
-                        Scheduled Tasks
-                    </span>
-
-                    <span id="task-count">
-                        0
-                    </span>
-
+                    <span>Sun, Tue, Thu (11:00 AM)</span>
+                    <span>Alvee</span>
                 </div>
 
-
                 <div class="quick-row">
-
-                    <span>
-                        Study
-                    </span>
-
-                    <span>
-                        IELTS
-                    </span>
-
+                    <span>Sat, Mon, Wed (11–1)</span>
+                    <span>Mahi</span>
                 </div>
 
-
                 <div class="quick-row">
-
-                    <span>
-                        Thesis
-                    </span>
-
-                    <span>
-                        Wed & Sat
-                    </span>
-
+                    <span>Sat, Mon, Wed (4:00 PM)</span>
+                    <span>Ashik</span>
                 </div>
 
-
                 <div class="quick-row">
-
-                    <span>
-                        Calendar
-                    </span>
-
-                    <span>
-                        Active
-                    </span>
-
+                    <span>Friday</span>
+                    <span>Off / Personal</span>
                 </div>
 
             </div>
+
 
         </aside>
 
 
         <!-- =================================================
-             CONTENT
+             RIGHT CONTENT
         ================================================== -->
 
         <section class="content">
-
 
             <div class="content-header">
 
                 <div>
 
-                    <h2>
+                    <h2 id="routineHeading">
                         Daily Routine
                     </h2>
 
-                    <p>
-                        Your schedule for the selected day
+                    <p id="routineSubheading">
+                        Click a session to toggle completion
                     </p>
 
                 </div>
@@ -1994,14 +2403,12 @@
                     class="today-button"
                     onclick="goToday()">
 
-                    GO TO TODAY
+                    JUMP TO TODAY
 
                 </button>
 
             </div>
 
-
-            <!-- ROUTINE -->
 
             <div
                 class="routine-list"
@@ -2010,12 +2417,12 @@
             </div>
 
 
-            <!-- BOTTOM -->
+            <!-- BOTTOM TWO COLUMN AREA -->
 
             <div class="bottom-grid">
 
 
-                <!-- COST -->
+                <!-- COST TRACKER -->
 
                 <div class="cost-card">
 
@@ -2024,22 +2431,20 @@
                         <div class="cost-title">
 
                             <h3>
-                                Daily Cost
+                                Daily Expenses
                             </h3>
 
-                            <p>
-                                Track your everyday expenses
+                            <p id="costDateLabel">
+                                For selected day
                             </p>
 
                         </div>
 
-
                         <div
-                            class="cost-total">
+                            class="cost-total"
+                            id="costTotal">
 
-                            ৳<span id="total-cost">
-                                0
-                            </span>
+                            ৳0
 
                         </div>
 
@@ -2050,25 +2455,19 @@
 
                         <input
                             type="text"
-                            id="cost-name"
-                            placeholder="Expense name"
-                            maxlength="40"
-                        >
-
+                            id="costName"
+                            placeholder="Expense note (e.g., Snacks, Transport)">
 
                         <input
                             type="number"
-                            id="cost-amount"
+                            id="costAmount"
                             placeholder="Amount"
                             min="0"
-                            step="0.01"
-                            inputmode="decimal"
-                        >
-
+                            step="any">
 
                         <button
                             class="add-cost"
-                            onclick="addCost()">
+                            onclick="addExpense()">
 
                             +
 
@@ -2079,23 +2478,14 @@
 
                     <div
                         class="cost-list"
-                        id="cost-list">
-
-                    </div>
-
-
-                    <div
-                        class="no-cost"
-                        id="no-cost">
-
-                        No expenses added yet.
+                        id="costList">
 
                     </div>
 
                 </div>
 
 
-                <!-- SUMMARY -->
+                <!-- DAY SUMMARY -->
 
                 <div class="summary-card">
 
@@ -2103,1816 +2493,1023 @@
                         Day Summary
                     </h3>
 
-
                     <div class="summary-stat">
-
-                        <span>
-                            Selected Date
-                        </span>
-
-                        <strong
-                            id="summary-date">
-
-                            --
-
-                        </strong>
-
+                        <span>Total Sessions</span>
+                        <strong id="statTotalTasks">0</strong>
                     </div>
 
-
                     <div class="summary-stat">
-
-                        <span>
-                            Scheduled Tasks
-                        </span>
-
-                        <strong
-                            id="summary-tasks">
-
-                            0
-
-                        </strong>
-
+                        <span>Completed</span>
+                        <strong id="statCompletedTasks">0</strong>
                     </div>
 
-
                     <div class="summary-stat">
-
-                        <span>
-                            Completed
-                        </span>
-
-                        <strong
-                            id="summary-completed">
-
-                            0
-
-                        </strong>
-
+                        <span>Day Schedule</span>
+                        <strong id="statDaySchedule">--</strong>
                     </div>
 
+                    <div class="summary-stat">
+                        <span>Income from tuition</span>
+                        <strong id="statTuitionIncome">৳0</strong>
+                    </div>
 
                     <div class="summary-stat total">
-
-                        <span>
-                            Total Expense
-                        </span>
-
-                        <strong
-                            id="summary-total">
-
-                            ৳0
-
-                        </strong>
-
+                        <span>Day Spend</span>
+                        <strong id="statTotalCost">৳0</strong>
                     </div>
 
                 </div>
+
 
             </div>
 
         </section>
 
+
     </main>
-
-
-    <!-- REPORT -->
-
-    <button
-        class="report-button"
-        onclick="mailReport()">
-
-        📩
-
-        <span>
-            Send Report
-        </span>
-
-    </button>
 
 
 </div>
 
 
+<!-- =====================================================
+     MODAL 1: INCOME FROM TUITION
+====================================================== -->
+<div class="modal-backdrop" id="incomeModal" onclick="backdropClose(event, 'incomeModal')">
+    <div class="modal-panel">
+        <div class="modal-head">
+            <h3>💰 Income from tuition</h3>
+            <button class="modal-close" onclick="closeModal('incomeModal')">✕</button>
+        </div>
+
+        <div class="modal-stats-row single-stat">
+            <div class="mini-stat-box">
+                <small>Total Tuition Income</small>
+                <strong id="modalTotalIncome">৳0</strong>
+            </div>
+        </div>
+
+        <div class="tuition-form-grid">
+            <input type="number" id="incomeAmount" placeholder="Amount (৳)" min="0" step="any">
+            <input type="text" id="incomeNote" placeholder="Note / Details (e.g., Monthly fee)">
+            <button class="add-cost" onclick="addTuitionIncome()">+</button>
+        </div>
+
+        <div class="cost-list" id="tuitionIncomeList"></div>
+    </div>
+</div>
+
+
+<!-- =====================================================
+     MODAL 2: PRESENT AT TUITION (হাজিরা খাতা)
+====================================================== -->
+<div class="modal-backdrop" id="attendanceModal" onclick="backdropClose(event, 'attendanceModal')">
+    <div class="modal-panel">
+        <div class="modal-head">
+            <h3>📋 Present at tuition (হাজিরা খাতা)</h3>
+            <button class="modal-close" onclick="closeModal('attendanceModal')">✕</button>
+        </div>
+
+        <div class="twelve-days-grid" id="twelveDaysBoxes"></div>
+
+        <p style="font-size: 11px; color: var(--text-dim); margin-bottom: 12px;">
+            নির্বাচিত দিন: <strong id="attendanceSelectedDateLabel" style="color: #fff;">--</strong>
+            — ১২ দিনের লক্ষ্য অনুযায়ী নিচে Present বাটনে ক্লিক করে উপস্থিতি হিসাব করুন।
+        </p>
+
+        <div class="attendance-student-list" id="attendanceStudentRows"></div>
+    </div>
+</div>
+
+
+<!-- =====================================================
+     MODAL 3: MONTHLY COST, EVERY MONTH SAVE & COMPARISON
+====================================================== -->
+<div class="modal-backdrop" id="monthlySavingsModal" onclick="backdropClose(event, 'monthlySavingsModal')">
+    <div class="modal-panel">
+        <div class="modal-head">
+            <h3>📊 Monthly Cost &amp; Saves (<span id="monthlySavingsMonthLabel">--</span>)</h3>
+            <button class="modal-close" onclick="closeModal('monthlySavingsModal')">✕</button>
+        </div>
+
+        <div class="modal-stats-row">
+            <div class="mini-stat-box cost-box">
+                <small>Total Cost of Selected Month</small>
+                <strong id="modalMonthlyCost">৳0</strong>
+            </div>
+            <div class="mini-stat-box">
+                <small>Selected Month Income</small>
+                <strong id="modalMonthlyIncome">৳0</strong>
+            </div>
+            <div class="mini-stat-box" id="modalSavesBox">
+                <small id="modalSavesLabel">Selected Month Saves</small>
+                <strong id="modalTotalSaves">৳0</strong>
+            </div>
+        </div>
+
+        <div class="compare-section-title">📈 Month-by-Month Save Result &amp; Comparison</div>
+        <div class="compare-table-wrap">
+            <table class="compare-table">
+                <thead>
+                    <tr>
+                        <th>Month</th>
+                        <th>Income</th>
+                        <th>Cost</th>
+                        <th>Saves</th>
+                        <th>vs Prev Month</th>
+                    </tr>
+                </thead>
+                <tbody id="monthComparisonBody"></tbody>
+            </table>
+        </div>
+
+        <div class="compare-section-title">🧾 Selected Month Cost Entries</div>
+        <div class="cost-list" id="monthlyCostBreakdownList"></div>
+    </div>
+</div>
+
+
+<button
+    class="report-button"
+    onclick="copyDayReport()">
+
+    <span>Copy Day Summary</span>
+
+</button>
+
+
 <script>
 
-
-/* =========================================================
-   WEEKLY SCHEDULE
-========================================================= */
-
-const schedule = {
-
-    Saturday: [
-
-        {
-            start: "08:30",
-            end: "12:30",
-            label: "08:30 AM - 12:30 PM",
-            task: "Thesis",
-            icon: "🧑‍💻"
-        },
-
-        {
-            start: "17:00",
-            end: "18:30",
-            label: "05:00 - 06:30 PM",
-            task: "Ashik",
-            icon: "👤"
-        },
-
-        {
-            start: "19:00",
-            end: "20:30",
-            label: "07:00 - 08:30 PM",
-            task: "Alvee",
-            icon: "👤"
-        },
-
-        {
-            start: "21:00",
-            end: "22:30",
-            label: "09:00 - 10:30 PM",
-            task: "IELTS Study",
-            icon: "📚"
-        }
-
-    ],
-
-
-    Sunday: [
-
-        {
-            start: "10:30",
-            end: "12:30",
-            label: "10:30 AM - 12:30 PM",
-            task: "University",
-            icon: "🎓"
-        },
-
-        {
-            start: "17:00",
-            end: "18:30",
-            label: "05:00 - 06:30 PM",
-            task: "Mahi",
-            icon: "👤"
-        },
-
-        {
-            start: "18:30",
-            end: "20:00",
-            label: "06:30 - 08:00 PM",
-            task: "Toki",
-            icon: "👤"
-        },
-
-        {
-            start: "21:00",
-            end: "22:30",
-            label: "09:00 - 10:30 PM",
-            task: "IELTS Study",
-            icon: "📚"
-        }
-
-    ],
-
-
-    Monday: [
-
-        {
-            start: "10:00",
-            end: "11:30",
-            label: "10:00 - 11:30 AM",
-            task: "Ashik",
-            icon: "👤"
-        },
-
-        {
-            start: "11:30",
-            end: "13:00",
-            label: "11:30 AM - 01:00 PM",
-            task: "Alvee",
-            icon: "👤"
-        },
-
-        {
-            start: "18:00",
-            end: "19:30",
-            label: "06:00 - 07:30 PM",
-            task: "Coaching",
-            icon: "🏫"
-        },
-
-        {
-            start: "21:00",
-            end: "22:30",
-            label: "09:00 - 10:30 PM",
-            task: "IELTS Study",
-            icon: "📚"
-        }
-
-    ],
-
-
-    Tuesday: [
-
-        {
-            start: "08:00",
-            end: "10:00",
-            label: "08:00 - 10:00 AM",
-            task: "Coaching",
-            icon: "🏫"
-        },
-
-        {
-            start: "10:30",
-            end: "12:30",
-            label: "10:30 AM - 12:30 PM",
-            task: "University",
-            icon: "🎓"
-        },
-
-        {
-            start: "17:00",
-            end: "18:30",
-            label: "05:00 - 06:30 PM",
-            task: "Mahi",
-            icon: "👤"
-        },
-
-        {
-            start: "18:30",
-            end: "20:00",
-            label: "06:30 - 08:00 PM",
-            task: "Toki",
-            icon: "👤"
-        },
-
-        {
-            start: "21:00",
-            end: "22:30",
-            label: "09:00 - 10:30 PM",
-            task: "IELTS Study",
-            icon: "📚"
-        }
-
-    ],
-
-
-    Wednesday: [
-
-        {
-            start: "08:30",
-            end: "12:30",
-            label: "08:30 AM - 12:30 PM",
-            task: "Thesis",
-            icon: "🧑‍💻"
-        },
-
-        {
-            start: "17:00",
-            end: "18:30",
-            label: "05:00 - 06:30 PM",
-            task: "Ashik",
-            icon: "👤"
-        },
-
-        {
-            start: "19:00",
-            end: "20:30",
-            label: "07:00 - 08:30 PM",
-            task: "Alvee",
-            icon: "👤"
-        },
-
-        {
-            start: "21:00",
-            end: "22:30",
-            label: "09:00 - 10:30 PM",
-            task: "IELTS Study",
-            icon: "📚"
-        }
-
-    ],
-
-
-    Thursday: [
-
-        {
-            start: "10:30",
-            end: "12:30",
-            label: "10:30 AM - 12:30 PM",
-            task: "University",
-            icon: "🎓"
-        },
-
-        {
-            start: "17:00",
-            end: "18:30",
-            label: "05:00 - 06:30 PM",
-            task: "Mahi",
-            icon: "👤"
-        },
-
-        {
-            start: "18:30",
-            end: "20:00",
-            label: "06:30 - 08:00 PM",
-            task: "Toki",
-            icon: "👤"
-        },
-
-        {
-            start: "21:00",
-            end: "22:30",
-            label: "09:00 - 10:30 PM",
-            task: "IELTS Study",
-            icon: "📚"
-        }
-
-    ],
-
-
-    Friday: [
-
-        {
-            start: "08:00",
-            end: "10:00",
-            label: "08:00 - 10:00 AM",
-            task: "Coaching",
-            icon: "🏫"
-        },
-
-        {
-            start: "21:00",
-            end: "22:30",
-            label: "09:00 - 10:30 PM",
-            task: "IELTS Study",
-            icon: "📚"
-        }
-
-    ]
-
-};
-
-
-/* =========================================================
-   VARIABLES
-========================================================= */
-
-let currentDate =
-    new Date();
-
-let selectedDate =
-    new Date();
-
-let currentDay =
-    getDayName(
-        selectedDate
-    );
-
-
-/* =========================================================
-   EXPENSE STORAGE
-========================================================= */
-
-let expenses =
-    JSON.parse(
-        localStorage.getItem(
-            "routineExpenses"
-        )
-    ) || {};
-
-
-/* =========================================================
-   COMPLETED TASK STORAGE
-========================================================= */
-
-let completedTasks =
-    JSON.parse(
-        localStorage.getItem(
-            "completedTasks"
-        )
-    ) || {};
-
-
-/* =========================================================
-   DAY NAME
-========================================================= */
-
-function getDayName(date) {
-
-    const days = [
-
-        "Sunday",
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday",
-        "Saturday"
-
-    ];
-
-    return days[
-        date.getDay()
-    ];
-
-}
-
-
-/* =========================================================
-   DATE KEY
-========================================================= */
-
-function getDateKey(date) {
-
-    return [
-
-        date.getFullYear(),
-
-        String(
-            date.getMonth() + 1
-        ).padStart(2, "0"),
-
-        String(
-            date.getDate()
-        ).padStart(2, "0")
-
-    ].join("-");
-
-}
-
-
-/* =========================================================
-   DATE FORMAT
-========================================================= */
-
-function formatDate(date) {
-
-    return date.toLocaleDateString(
-        "en-US",
-        {
-            weekday: "long",
-            month: "long",
-            day: "numeric",
-            year: "numeric"
-        }
-    );
-
-}
-
-
-/* =========================================================
-   TIME TO MINUTES
-========================================================= */
-
-function timeToMinutes(time) {
-
-    const parts =
-        time.split(":");
-
-    return (
-        Number(parts[0]) * 60 +
-        Number(parts[1])
-    );
-
-}
-
-
-/* =========================================================
-   ACTIVE TASK
-========================================================= */
-
-function isTaskActive(item) {
-
-    const now =
-        new Date();
-
-    const currentMinutes =
-        now.getHours() * 60 +
-        now.getMinutes();
-
-    const start =
-        timeToMinutes(
-            item.start
-        );
-
-    const end =
-        timeToMinutes(
-            item.end
-        );
-
-    return (
-        currentMinutes >= start &&
-        currentMinutes < end
-    );
-
-}
-
-
-/* =========================================================
-   SAME DATE
-========================================================= */
-
-function isSameDate(a, b) {
-
-    return (
-
-        a.getFullYear() ===
-        b.getFullYear()
-
-        &&
-
-        a.getMonth() ===
-        b.getMonth()
-
-        &&
-
-        a.getDate() ===
-        b.getDate()
-
-    );
-
-}
-
-
-/* =========================================================
-   CALENDAR
-========================================================= */
-
-function renderCalendar() {
-
-    const grid =
-        document.getElementById(
-            "calendarGrid"
-        );
-
-    grid.innerHTML = "";
-
-
-    const year =
-        currentDate.getFullYear();
-
-    const month =
-        currentDate.getMonth();
-
-
-    const monthNames = [
-
-        "January",
-        "February",
-        "March",
-        "April",
-        "May",
-        "June",
-        "July",
-        "August",
-        "September",
-        "October",
-        "November",
-        "December"
-
-    ];
-
-
-    document.getElementById(
-        "monthTitle"
-    ).innerText =
-        `${monthNames[month]} ${year}`;
-
-
-    const firstDay =
-        new Date(
-            year,
-            month,
-            1
-        ).getDay();
-
-
-    const daysInMonth =
-        new Date(
-            year,
-            month + 1,
-            0
-        ).getDate();
-
-
-    for (
-        let i = 0;
-        i < firstDay;
-        i++
-    ) {
-
-        const empty =
-            document.createElement(
-                "div"
-            );
-
-        empty.className =
-            "calendar-day empty";
-
-        grid.appendChild(
-            empty
-        );
-
-    }
-
-
-    for (
-        let day = 1;
-        day <= daysInMonth;
-        day++
-    ) {
-
-        const date =
-            new Date(
-                year,
-                month,
-                day
-            );
-
-
-        const cell =
-            document.createElement(
-                "div"
-            );
-
-
-        cell.className =
-            "calendar-day";
-
-
-        cell.innerText =
-            day;
-
-
-        if (
-            isSameDate(
-                date,
-                new Date()
-            )
-        ) {
-
-            cell.classList.add(
-                "today"
-            );
-
-        }
-
-
-        if (
-            isSameDate(
-                date,
-                selectedDate
-            )
-        ) {
-
-            cell.classList.add(
-                "selected"
-            );
-
-        }
-
-
-        const dayName =
-            getDayName(
-                date
-            );
-
-
-        if (
-            schedule[dayName] &&
-            schedule[dayName].length > 0
-        ) {
-
-            const dot =
-                document.createElement(
-                    "span"
-                );
-
-            dot.className =
-                "schedule-dot";
-
-            cell.appendChild(
-                dot
-            );
-
-        }
-
-
-        cell.onclick =
-            function () {
-
-                selectedDate =
-                    new Date(
-                        date
-                    );
-
-                currentDay =
-                    getDayName(
-                        selectedDate
-                    );
-
-                renderCalendar();
-
-                updateSelectedDay();
-
-                renderRoutine();
-
-                renderCosts();
-
-            };
-
-
-        grid.appendChild(
-            cell
-        );
-
-    }
-
-}
-
-
-/* =========================================================
-   MONTH CHANGE
-========================================================= */
-
-function changeMonth(direction) {
-
-    currentDate.setMonth(
-        currentDate.getMonth() +
-        direction
-    );
-
-    renderCalendar();
-
-}
-
-
-/* =========================================================
-   TODAY
-========================================================= */
-
-function goToday() {
-
-    const today =
-        new Date();
-
-    currentDate =
-        new Date(today);
-
-    selectedDate =
-        new Date(today);
-
-    currentDay =
-        getDayName(today);
-
-    renderCalendar();
-
-    updateSelectedDay();
-
-    renderRoutine();
-
-    renderCosts();
-
-}
-
-
-/* =========================================================
-   SELECTED DAY
-========================================================= */
-
-function updateSelectedDay() {
-
-    document.getElementById(
-        "selectedDayName"
-    ).innerText =
-        currentDay;
-
-
-    document.getElementById(
-        "selectedDayDate"
-    ).innerText =
-        formatDate(
-            selectedDate
-        );
-
-
-    document.getElementById(
-        "summary-date"
-    ).innerText =
-        selectedDate.toLocaleDateString(
-            "en-US",
-            {
-                month: "short",
-                day: "numeric"
-            }
-        );
-
-}
-
-
-/* =========================================================
-   RENDER ROUTINE
-========================================================= */
-
-function renderRoutine() {
-
-    const container =
-        document.getElementById(
-            "routineList"
-        );
-
-
-    container.innerHTML = "";
-
-
-    const tasks =
-        schedule[
-            currentDay
-        ] || [];
-
-
-    document.getElementById(
-        "task-count"
-    ).innerText =
-        tasks.length;
-
-
-    document.getElementById(
-        "summary-tasks"
-    ).innerText =
-        tasks.length;
-
-
-    if (
-        tasks.length === 0
-    ) {
-
-        container.innerHTML = `
-
-            <div class="empty-state">
-
-                <div class="emoji">
-                    😌
-                </div>
-
-                <h3>
-                    No Routine
-                </h3>
-
-                <p>
-                    Nothing scheduled for this day.
-                </p>
-
-            </div>
-
-        `;
-
-        return;
-
-    }
-
-
-    const dateKey =
-        getDateKey(
-            selectedDate
-        );
-
-
-    const completed =
-        completedTasks[
-            dateKey
-        ] || [];
-
-
-    tasks.forEach(
-        (item, index) => {
-
-            const active =
-                isTaskActive(
-                    item
-                );
-
-
-            const isDone =
-                completed.includes(
-                    index
-                );
-
-
-            const div =
-                document.createElement(
-                    "div"
-                );
-
-
-            div.className =
-                "task-item";
-
-
-            div.innerHTML = `
-
-                <div class="time-label">
-
-                    ${item.label}
-
-                </div>
-
-
-                <div
-                    class="
-                        task-content
-                        ${active ? "active-now" : ""}
-                        ${isDone ? "done" : ""}
-                    "
-
-                    onclick="
-                        toggleTask(${index})
-                    "
-                >
-
-                    <div class="task-left">
-
-                        <div class="icon-box">
-
-                            ${item.icon}
-
-                        </div>
-
-
-                        <div class="info">
-
-                            <h4>
-
-                                ${item.task}
-
-                            </h4>
-
-
-                            <p>
-
-                                ${
-                                    active
-                                        ? "● ACTIVE NOW"
-                                        : isDone
-                                            ? "COMPLETED"
-                                            : "SCHEDULED"
-                                }
-
-                            </p>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="checkbox">
-
-                    </div>
-
-                </div>
-
-            `;
-
-
-            container.appendChild(
-                div
-            );
-
-        }
-    );
-
-
-    updateCompletedCount();
-
-}
-
-
-/* =========================================================
-   TOGGLE TASK
-========================================================= */
-
-function toggleTask(index) {
-
-    const dateKey =
-        getDateKey(
-            selectedDate
-        );
-
-
-    if (
-        !completedTasks[dateKey]
-    ) {
-
-        completedTasks[dateKey] = [];
-
-    }
-
-
-    const position =
-        completedTasks[
-            dateKey
-        ].indexOf(
-            index
-        );
-
-
-    if (
-        position === -1
-    ) {
-
-        completedTasks[
-            dateKey
-        ].push(
-            index
-        );
-
-    }
-
-    else {
-
-        completedTasks[
-            dateKey
-        ].splice(
-            position,
-            1
-        );
-
-    }
-
-
-    localStorage.setItem(
-
-        "completedTasks",
-
-        JSON.stringify(
-            completedTasks
-        )
-
-    );
-
-
-    renderRoutine();
-
-}
-
-
-/* =========================================================
-   COMPLETED COUNT
-========================================================= */
-
-function updateCompletedCount() {
-
-    const dateKey =
-        getDateKey(
-            selectedDate
-        );
-
-
-    const completed =
-        completedTasks[
-            dateKey
-        ] || [];
-
-
-    document.getElementById(
-        "summary-completed"
-    ).innerText =
-        completed.length;
-
-}
-
-
-/* =========================================================
-   ADD COST
-========================================================= */
-
-function addCost() {
-
-    const nameInput =
-        document.getElementById(
-            "cost-name"
-        );
-
-
-    const amountInput =
-        document.getElementById(
-            "cost-amount"
-        );
-
-
-    const name =
-        nameInput.value.trim();
-
-
-    const amount =
-        parseFloat(
-            amountInput.value
-        );
-
-
-    if (!name) {
-
-        nameInput.focus();
-
-        return;
-
-    }
-
-
-    if (
-        isNaN(amount) ||
-        amount <= 0
-    ) {
-
-        amountInput.focus();
-
-        return;
-
-    }
-
-
-    const dateKey =
-        getDateKey(
-            selectedDate
-        );
-
-
-    if (
-        !expenses[dateKey]
-    ) {
-
-        expenses[dateKey] = [];
-
-    }
-
-
-    expenses[
-        dateKey
-    ].push({
-
-        name:
-            name,
-
-        amount:
-            amount
-
+    /* =========================================================
+       BUTTON CLICK ANIMATION HANDLER
+    ========================================================= */
+
+    document.addEventListener('click', function (event) {
+        const btn = event.target.closest('button');
+        if (!btn) return;
+
+        btn.classList.remove('clicked-anim');
+        void btn.offsetWidth;
+        btn.classList.add('clicked-anim');
+
+        setTimeout(() => {
+            btn.classList.remove('clicked-anim');
+        }, 360);
     });
 
 
-    saveExpenses();
-
-    renderCosts();
-
-
-    nameInput.value = "";
-
-    amountInput.value = "";
-
-    nameInput.focus();
-
-}
-
-
-/* =========================================================
-   DELETE COST
-========================================================= */
-
-function deleteCost(index) {
-
-    const dateKey =
-        getDateKey(
-            selectedDate
-        );
-
-
-    if (
-        !expenses[dateKey]
-    ) {
-
-        return;
-
-    }
-
-
-    expenses[
-        dateKey
-    ].splice(
-        index,
-        1
-    );
-
-
-    if (
-        expenses[dateKey].length === 0
-    ) {
-
-        delete expenses[
-            dateKey
-        ];
-
-    }
-
-
-    saveExpenses();
-
-    renderCosts();
-
-}
-
-
-/* =========================================================
-   SAVE EXPENSES
-========================================================= */
-
-function saveExpenses() {
-
-    localStorage.setItem(
-
-        "routineExpenses",
-
-        JSON.stringify(
-            expenses
-        )
-
-    );
-
-}
-
-
-/* =========================================================
-   RENDER COSTS
-========================================================= */
-
-function renderCosts() {
-
-    const list =
-        document.getElementById(
-            "cost-list"
-        );
-
-
-    const noCost =
-        document.getElementById(
-            "no-cost"
-        );
-
-
-    const totalElement =
-        document.getElementById(
-            "total-cost"
-        );
-
-
-    const summaryTotal =
-        document.getElementById(
-            "summary-total"
-        );
-
-
-    const dateKey =
-        getDateKey(
-            selectedDate
-        );
-
-
-    const dailyExpenses =
-        expenses[
-            dateKey
-        ] || [];
-
-
-    list.innerHTML = "";
-
-
-    let total = 0;
-
-
-    dailyExpenses.forEach(
-        (
-            expense,
-            index
-        ) => {
-
-            total +=
-                Number(
-                    expense.amount
-                );
-
-
-            const item =
-                document.createElement(
-                    "div"
-                );
-
-
-            item.className =
-                "cost-item";
-
-
-            item.innerHTML = `
-
-                <div class="cost-icon">
-                    💰
-                </div>
-
-
-                <div class="cost-info">
-
-                    <div class="cost-name">
-
-                        ${escapeHTML(
-                            expense.name
-                        )}
-
-                    </div>
-
-                </div>
-
-
-                <div class="cost-amount">
-
-                    ৳${Number(
-                        expense.amount
-                    ).toLocaleString(
-                        "en-BD",
-                        {
-                            minimumFractionDigits: 0,
-                            maximumFractionDigits: 2
-                        }
-                    )}
-
-                </div>
-
-
-                <button
-                    class="delete-cost"
-                    onclick="
-                        deleteCost(${index})
-                    ">
-
-                    ✕
-
-                </button>
-
-            `;
-
-
-            list.appendChild(
-                item
-            );
-
-        }
-    );
-
-
-    const formattedTotal =
-        total.toLocaleString(
-            "en-BD",
+    /* =========================================================
+       ROUTINE SCHEDULE DATA
+    ========================================================= */
+
+    const ROUTINE_BY_DAY = {
+        0: [ // Sunday
             {
-                minimumFractionDigits: 0,
-                maximumFractionDigits: 2
+                id: 'sun-11',
+                time: '11:00 AM',
+                startMinutes: 11 * 60,
+                endMinutes: 12 * 60,
+                icon: '📌',
+                title: 'Alvee',
+                subtitle: '11:00 AM Session • Sunday'
+            }
+        ],
+        1: [ // Monday
+            {
+                id: 'mon-11-1',
+                time: '11:00 AM – 1:00 PM',
+                startMinutes: 11 * 60,
+                endMinutes: 13 * 60,
+                icon: '🎯',
+                title: 'Mahi',
+                subtitle: '11:00 AM – 1:00 PM Session • Monday'
+            },
+            {
+                id: 'mon-16',
+                time: '4:00 PM',
+                startMinutes: 16 * 60,
+                endMinutes: 17 * 60,
+                icon: '⚡',
+                title: 'Ashik',
+                subtitle: '4:00 PM Session • Monday'
+            }
+        ],
+        2: [ // Tuesday
+            {
+                id: 'tue-11',
+                time: '11:00 AM',
+                startMinutes: 11 * 60,
+                endMinutes: 12 * 60,
+                icon: '📌',
+                title: 'Alvee',
+                subtitle: '11:00 AM Session • Tuesday'
+            }
+        ],
+        3: [ // Wednesday
+            {
+                id: 'wed-11-1',
+                time: '11:00 AM – 1:00 PM',
+                startMinutes: 11 * 60,
+                endMinutes: 13 * 60,
+                icon: '🎯',
+                title: 'Mahi',
+                subtitle: '11:00 AM – 1:00 PM Session • Wednesday'
+            },
+            {
+                id: 'wed-16',
+                time: '4:00 PM',
+                startMinutes: 16 * 60,
+                endMinutes: 17 * 60,
+                icon: '⚡',
+                title: 'Ashik',
+                subtitle: '4:00 PM Session • Wednesday'
+            }
+        ],
+        4: [ // Thursday
+            {
+                id: 'thu-11',
+                time: '11:00 AM',
+                startMinutes: 11 * 60,
+                endMinutes: 12 * 60,
+                icon: '📌',
+                title: 'Alvee',
+                subtitle: '11:00 AM Session • Thursday'
+            }
+        ],
+        5: [], // Friday
+        6: [ // Saturday
+            {
+                id: 'sat-11-1',
+                time: '11:00 AM – 1:00 PM',
+                startMinutes: 11 * 60,
+                endMinutes: 13 * 60,
+                icon: '🎯',
+                title: 'Mahi',
+                subtitle: '11:00 AM – 1:00 PM Session • Saturday'
+            },
+            {
+                id: 'sat-16',
+                time: '4:00 PM',
+                startMinutes: 16 * 60,
+                endMinutes: 17 * 60,
+                icon: '⚡',
+                title: 'Ashik',
+                subtitle: '4:00 PM Session • Saturday'
+            }
+        ]
+    };
+
+    const DAY_SCHEDULE_LABEL = {
+        0: 'Alvee (11 AM)',
+        1: 'Mahi (11 AM – 1 PM), Ashik (4 PM)',
+        2: 'Alvee (11 AM)',
+        3: 'Mahi (11 AM – 1 PM), Ashik (4 PM)',
+        4: 'Alvee (11 AM)',
+        5: 'None (Friday)',
+        6: 'Mahi (11 AM – 1 PM), Ashik (4 PM)'
+    };
+
+    const TARGET_DAYS = 12;
+
+    const STUDENTS = [
+        { name: 'Alvee', slot: 'Sun, Tue, Thu • 11:00 AM' },
+        { name: 'Mahi', slot: 'Sat, Mon, Wed • 11:00 AM – 1:00 PM' },
+        { name: 'Ashik', slot: 'Sat, Mon, Wed • 4:00 PM' }
+    ];
+
+    const DAY_NAMES = [
+        'Sunday',
+        'Monday',
+        'Tuesday',
+        'Wednesday',
+        'Thursday',
+        'Friday',
+        'Saturday'
+    ];
+
+    const MONTH_NAMES = [
+        'January', 'February', 'March', 'April', 'May', 'June',
+        'July', 'August', 'September', 'October', 'November', 'December'
+    ];
+
+
+    /* =========================================================
+       STATE & STORAGE
+    ========================================================= */
+
+    const todayObj = new Date();
+    let viewYear = todayObj.getFullYear();
+    let viewMonth = todayObj.getMonth();
+    let selectedDate = new Date(
+        todayObj.getFullYear(),
+        todayObj.getMonth(),
+        todayObj.getDate()
+    );
+
+    const STORAGE_KEY_DONE = 'routine_os_done_v1';
+    const STORAGE_KEY_COSTS = 'routine_os_costs_v1';
+    const STORAGE_KEY_TUITION_INCOME = 'routine_os_tuition_income_v1';
+    const STORAGE_KEY_ATTENDANCE = 'routine_os_tuition_attendance_v1';
+
+    let doneMap = JSON.parse(localStorage.getItem(STORAGE_KEY_DONE) || '{}');
+    let costsMap = JSON.parse(localStorage.getItem(STORAGE_KEY_COSTS) || '{}');
+    let tuitionIncomeList = JSON.parse(localStorage.getItem(STORAGE_KEY_TUITION_INCOME) || '[]');
+    let attendanceMap = JSON.parse(localStorage.getItem(STORAGE_KEY_ATTENDANCE) || '{}');
+
+    function formatDateKey(dateObj) {
+        const y = dateObj.getFullYear();
+        const m = String(dateObj.getMonth() + 1).padStart(2, '0');
+        const d = String(dateObj.getDate()).padStart(2, '0');
+        return `${y}-${m}-${d}`;
+    }
+
+    function formatMonthPrefix(year, monthIndex) {
+        return `${year}-${String(monthIndex + 1).padStart(2, '0')}`;
+    }
+
+    function formatMonthReadable(prefix) {
+        const parts = prefix.split('-');
+        if (parts.length !== 2) return prefix;
+        const y = Number(parts[0]);
+        const mIdx = Number(parts[1]) - 1;
+        if (isNaN(y) || isNaN(mIdx) || mIdx < 0 || mIdx > 11) return prefix;
+        return `${MONTH_NAMES[mIdx]} ${y}`;
+    }
+
+    function formatCurrencySigned(val) {
+        if (val < 0) return `-৳${Math.abs(val)}`;
+        return `৳${val}`;
+    }
+
+    function isSameDay(a, b) {
+        return (
+            a.getFullYear() === b.getFullYear() &&
+            a.getMonth() === b.getMonth() &&
+            a.getDate() === b.getDate()
+        );
+    }
+
+    function saveState() {
+        localStorage.setItem(STORAGE_KEY_DONE, JSON.stringify(doneMap));
+        localStorage.setItem(STORAGE_KEY_COSTS, JSON.stringify(costsMap));
+        localStorage.setItem(STORAGE_KEY_TUITION_INCOME, JSON.stringify(tuitionIncomeList));
+        localStorage.setItem(STORAGE_KEY_ATTENDANCE, JSON.stringify(attendanceMap));
+    }
+
+
+    /* =========================================================
+       MODALS
+    ========================================================= */
+
+    function openModal(id) {
+        document.getElementById(id).classList.add('open');
+        if (id === 'incomeModal') renderTuitionIncome();
+        if (id === 'attendanceModal') renderAttendance();
+        if (id === 'monthlySavingsModal') renderMonthlySavings();
+    }
+
+    function closeModal(id) {
+        document.getElementById(id).classList.remove('open');
+    }
+
+    function backdropClose(event, id) {
+        if (event.target.id === id) {
+            closeModal(id);
+        }
+    }
+
+
+    /* =========================================================
+       MONTHLY COST, EVERY MONTH SAVE & MONTH-BY-MONTH COMPARISON
+    ========================================================= */
+
+    function getMonthCostData(year, monthIndex) {
+        const prefix = formatMonthPrefix(year, monthIndex);
+        let totalCost = 0;
+        const entries = [];
+
+        Object.keys(costsMap).forEach(dateKey => {
+            if (dateKey.startsWith(prefix)) {
+                const dayItems = costsMap[dateKey] || [];
+                dayItems.forEach(item => {
+                    const amt = Number(item.amount || 0);
+                    totalCost += amt;
+                    entries.push({
+                        date: dateKey,
+                        name: item.name,
+                        amount: amt
+                    });
+                });
+            }
+        });
+
+        return { totalCost, entries };
+    }
+
+    function getMonthIncomeTotal(year, monthIndex) {
+        const prefix = formatMonthPrefix(year, monthIndex);
+        return tuitionIncomeList.reduce((sum, item) => {
+            const itemDate = item.date || '';
+            if (itemDate.startsWith(prefix)) {
+                return sum + Number(item.amount || 0);
+            }
+            return sum;
+        }, 0);
+    }
+
+    function buildAllMonthsSummary() {
+        const monthSet = new Set();
+
+        Object.keys(costsMap).forEach(dateKey => {
+            if (/^\d{4}-\d{2}-\d{2}$/.test(dateKey)) {
+                monthSet.add(dateKey.slice(0, 7));
+            }
+        });
+
+        tuitionIncomeList.forEach(item => {
+            if (item.date && /^\d{4}-\d{2}-\d{2}$/.test(item.date)) {
+                monthSet.add(item.date.slice(0, 7));
+            }
+        });
+
+        monthSet.add(formatMonthPrefix(selectedDate.getFullYear(), selectedDate.getMonth()));
+
+        const sortedPrefixes = Array.from(monthSet).sort();
+
+        return sortedPrefixes.map(prefix => {
+            const [yStr, mStr] = prefix.split('-');
+            const y = Number(yStr);
+            const mIdx = Number(mStr) - 1;
+            const { totalCost } = getMonthCostData(y, mIdx);
+            const totalIncome = getMonthIncomeTotal(y, mIdx);
+            const saves = totalIncome - totalCost;
+
+            return {
+                prefix,
+                label: formatMonthReadable(prefix),
+                income: totalIncome,
+                cost: totalCost,
+                saves
+            };
+        });
+    }
+
+    function renderMonthlySavings() {
+        const targetYear = selectedDate.getFullYear();
+        const targetMonth = selectedDate.getMonth();
+        const activePrefix = formatMonthPrefix(targetYear, targetMonth);
+
+        document.getElementById('monthlySavingsMonthLabel').textContent =
+            `${MONTH_NAMES[targetMonth]} ${targetYear}`;
+
+        const { totalCost, entries } = getMonthCostData(targetYear, targetMonth);
+        const monthIncome = getMonthIncomeTotal(targetYear, targetMonth);
+        const totalSaves = monthIncome - totalCost;
+
+        document.getElementById('modalMonthlyCost').textContent = `৳${totalCost}`;
+        document.getElementById('modalMonthlyIncome').textContent = `৳${monthIncome}`;
+
+        const savesBox = document.getElementById('modalSavesBox');
+        const savesLabel = document.getElementById('modalSavesLabel');
+        const savesEl = document.getElementById('modalTotalSaves');
+
+        if (totalSaves >= 0) {
+            savesBox.classList.remove('deficit');
+            savesLabel.textContent = 'Selected Month Saves';
+            savesEl.textContent = `৳${totalSaves}`;
+        } else {
+            savesBox.classList.add('deficit');
+            savesLabel.textContent = 'Over Spend (Deficit)';
+            savesEl.textContent = `-৳${Math.abs(totalSaves)}`;
+        }
+
+        const monthsData = buildAllMonthsSummary();
+        const tbodyEl = document.getElementById('monthComparisonBody');
+        tbodyEl.innerHTML = '';
+
+        monthsData.forEach((m, index) => {
+            const prevMonth = index > 0 ? monthsData[index - 1] : null;
+            let diffHtml = `<span style="color: var(--text-dim);">—</span>`;
+
+            if (prevMonth) {
+                const diff = m.saves - prevMonth.saves;
+                if (diff > 0) {
+                    diffHtml = `<span class="save-positive">+৳${diff} ▲</span>`;
+                } else if (diff < 0) {
+                    diffHtml = `<span class="save-negative">-৳${Math.abs(diff)} ▼</span>`;
+                } else {
+                    diffHtml = `<span style="color: var(--text-dim);">৳0 (Same)</span>`;
+                }
+            }
+
+            const tr = document.createElement('tr');
+            if (m.prefix === activePrefix) {
+                tr.classList.add('active-month-row');
+            }
+
+            const saveClass = m.saves >= 0 ? 'save-positive' : 'save-negative';
+
+            tr.innerHTML = `
+                <td><strong>${m.label}</strong></td>
+                <td>৳${m.income}</td>
+                <td>৳${m.cost}</td>
+                <td class="${saveClass}">${formatCurrencySigned(m.saves)}</td>
+                <td>${diffHtml}</td>
+            `;
+            tbodyEl.appendChild(tr);
+        });
+
+        const listEl = document.getElementById('monthlyCostBreakdownList');
+        if (entries.length === 0) {
+            listEl.innerHTML = `<div class="no-cost">${MONTH_NAMES[targetMonth]} ${targetYear} মাসের কোনো খরচ লগ করা হয়নি।</div>`;
+            return;
+        }
+
+        listEl.innerHTML = '';
+        entries.forEach(entry => {
+            const row = document.createElement('div');
+            row.className = 'cost-item';
+            row.innerHTML = `
+                <div class="cost-icon">🧾</div>
+                <div class="cost-info">
+                    <div class="cost-name">${entry.name} (${entry.date})</div>
+                </div>
+                <div class="cost-amount">৳${entry.amount}</div>
+            `;
+            listEl.appendChild(row);
+        });
+    }
+
+
+    /* =========================================================
+       INCOME FROM TUITION
+    ========================================================= */
+
+    function addTuitionIncome() {
+        const amountEl = document.getElementById('incomeAmount');
+        const noteEl = document.getElementById('incomeNote');
+
+        const amount = parseFloat(amountEl.value);
+        const note = noteEl.value.trim() || 'Tuition Fee';
+
+        if (isNaN(amount) || amount <= 0) return;
+
+        tuitionIncomeList.unshift({
+            amount,
+            note,
+            date: formatDateKey(selectedDate)
+        });
+
+        saveState();
+        amountEl.value = '';
+        noteEl.value = '';
+        renderTuitionIncome();
+        updateIncomeSummaryCard();
+    }
+
+    function deleteTuitionIncome(index) {
+        tuitionIncomeList.splice(index, 1);
+        saveState();
+        renderTuitionIncome();
+        updateIncomeSummaryCard();
+    }
+
+    function updateIncomeSummaryCard() {
+        const total = tuitionIncomeList.reduce((sum, item) => sum + Number(item.amount || 0), 0);
+        document.getElementById('statTuitionIncome').textContent = `৳${total}`;
+    }
+
+    function renderTuitionIncome() {
+        const total = tuitionIncomeList.reduce((sum, item) => sum + Number(item.amount || 0), 0);
+        document.getElementById('modalTotalIncome').textContent = `৳${total}`;
+
+        const listEl = document.getElementById('tuitionIncomeList');
+        if (tuitionIncomeList.length === 0) {
+            listEl.innerHTML = `<div class="no-cost">এখনও কোনো টিউশন আয়ের হিসাব যোগ করা হয়নি।</div>`;
+            return;
+        }
+
+        listEl.innerHTML = '';
+        tuitionIncomeList.forEach((item, idx) => {
+            const row = document.createElement('div');
+            row.className = 'cost-item';
+            row.innerHTML = `
+                <div class="cost-icon">💰</div>
+                <div class="cost-info">
+                    <div class="cost-name">${item.note} (${item.date})</div>
+                </div>
+                <div class="cost-amount">৳${item.amount}</div>
+                <button class="delete-cost" onclick="deleteTuitionIncome(${idx})" title="Remove">✕</button>
+            `;
+            listEl.appendChild(row);
+        });
+    }
+
+
+    /* =========================================================
+       PRESENT AT TUITION (হাজিরা খাতা + 12 DAYS BOX)
+    ========================================================= */
+
+    function getStudentTotalDays(studentName) {
+        let count = 0;
+        Object.keys(attendanceMap).forEach(dateKey => {
+            if (attendanceMap[dateKey] && attendanceMap[dateKey][studentName]) {
+                count++;
+            }
+        });
+        return count;
+    }
+
+    function toggleStudentAttendance(studentName) {
+        const dateKey = formatDateKey(selectedDate);
+        if (!attendanceMap[dateKey]) {
+            attendanceMap[dateKey] = {};
+        }
+        attendanceMap[dateKey][studentName] = !attendanceMap[dateKey][studentName];
+        saveState();
+        renderAttendance();
+    }
+
+    function renderAttendance() {
+        const dateKey = formatDateKey(selectedDate);
+        const dayRecord = attendanceMap[dateKey] || {};
+
+        document.getElementById('attendanceSelectedDateLabel').textContent =
+            `${DAY_NAMES[selectedDate.getDay()]}, ${selectedDate.toLocaleDateString('en-US', {
+                month: 'short',
+                day: 'numeric',
+                year: 'numeric'
+            })}`;
+
+        const twelveBoxesEl = document.getElementById('twelveDaysBoxes');
+        twelveBoxesEl.innerHTML = '';
+
+        STUDENTS.forEach(student => {
+            const totalDays = getStudentTotalDays(student.name);
+            const remainingDays = Math.max(0, TARGET_DAYS - totalDays);
+            const isCompleted = totalDays >= TARGET_DAYS;
+
+            const box = document.createElement('div');
+            box.className = `twelve-day-box ${isCompleted ? 'completed' : ''}`;
+            box.innerHTML = `
+                <div class="twelve-day-top">
+                    <span>${student.name}</span>
+                    <span class="twelve-day-badge">${isCompleted ? '12/12 Done' : '12 Days Plan'}</span>
+                </div>
+                <div class="twelve-day-count">${totalDays} / ${TARGET_DAYS} দিন</div>
+                <div class="twelve-day-sub">${isCompleted ? '১২ দিনের লক্ষ্য পূর্ণ হয়েছে' : `বাকি আছে ${remainingDays} দিন`}</div>
+            `;
+            twelveBoxesEl.appendChild(box);
+        });
+
+        const container = document.getElementById('attendanceStudentRows');
+        container.innerHTML = '';
+
+        STUDENTS.forEach(student => {
+            const isPresentToday = Boolean(dayRecord[student.name]);
+            const totalDays = getStudentTotalDays(student.name);
+
+            const row = document.createElement('div');
+            row.className = 'attendance-row';
+            row.innerHTML = `
+                <div class="attendance-student-meta">
+                    <h4>${student.name} — ${totalDays} / ${TARGET_DAYS} দিন পড়ানো হয়েছে</h4>
+                    <p>${student.slot}</p>
+                </div>
+                <div class="attendance-actions">
+                    <button
+                        class="present-toggle-btn ${isPresentToday ? 'is-present' : ''}"
+                        onclick="toggleStudentAttendance('${student.name}')">
+                        ${isPresentToday ? '✓ Present (আজ পড়ানো হয়েছে)' : '+ Mark Present'}
+                    </button>
+                </div>
+            `;
+            container.appendChild(row);
+        });
+    }
+
+
+    /* =========================================================
+       CLOCK & HEADER
+    ========================================================= */
+
+    function updateClockAndHeader() {
+        const now = new Date();
+        const hour = now.getHours();
+
+        let greet = 'GOOD EVENING';
+        if (hour < 12) greet = 'GOOD MORNING';
+        else if (hour < 17) greet = 'GOOD AFTERNOON';
+
+        document.getElementById('greet-text').textContent = greet;
+
+        document.getElementById('header-date').textContent = now.toLocaleDateString(
+            'en-US',
+            {
+                weekday: 'short',
+                month: 'short',
+                day: 'numeric',
+                year: 'numeric'
             }
         );
 
-
-    totalElement.innerText =
-        formattedTotal;
-
-
-    summaryTotal.innerText =
-        `৳${formattedTotal}`;
-
-
-    if (
-        dailyExpenses.length === 0
-    ) {
-
-        noCost.style.display =
-            "block";
-
-    }
-
-    else {
-
-        noCost.style.display =
-            "none";
-
-    }
-
-}
-
-
-/* =========================================================
-   ESCAPE HTML
-========================================================= */
-
-function escapeHTML(text) {
-
-    const div =
-        document.createElement(
-            "div"
-        );
-
-    div.textContent =
-        text;
-
-    return div.innerHTML;
-
-}
-
-
-/* =========================================================
-   LIVE CLOCK
-========================================================= */
-
-function tick() {
-
-    const now =
-        new Date();
-
-
-    document.getElementById(
-        "live-clock"
-    ).innerText =
-
-        now.toLocaleTimeString(
-            "en-US",
+        document.getElementById('live-clock').textContent = now.toLocaleTimeString(
+            'en-US',
             {
-                hour: "2-digit",
-                minute: "2-digit",
+                hour: '2-digit',
+                minute: '2-digit',
                 hour12: true
             }
         );
+    }
 
 
-    document.getElementById(
-        "header-date"
-    ).innerText =
+    /* =========================================================
+       CALENDAR
+    ========================================================= */
 
-        now.toLocaleDateString(
-            "en-US",
+    function renderCalendar() {
+        const monthTitle = document.getElementById('monthTitle');
+        const grid = document.getElementById('calendarGrid');
+
+        monthTitle.textContent = `${MONTH_NAMES[viewMonth]} ${viewYear}`;
+        grid.innerHTML = '';
+
+        const firstDayOfMonth = new Date(viewYear, viewMonth, 1).getDay();
+        const daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
+
+        for (let i = 0; i < firstDayOfMonth; i++) {
+            const emptyCell = document.createElement('div');
+            emptyCell.className = 'calendar-day empty';
+            grid.appendChild(emptyCell);
+        }
+
+        for (let day = 1; day <= daysInMonth; day++) {
+            const cellDate = new Date(viewYear, viewMonth, day);
+            const cell = document.createElement('div');
+            cell.className = 'calendar-day';
+            cell.textContent = day;
+
+            if (isSameDay(cellDate, todayObj)) {
+                cell.classList.add('today');
+            }
+
+            if (isSameDay(cellDate, selectedDate)) {
+                cell.classList.add('selected');
+            }
+
+            const hasSchedule = (ROUTINE_BY_DAY[cellDate.getDay()] || []).length > 0;
+            if (hasSchedule) {
+                const dot = document.createElement('span');
+                dot.className = 'schedule-dot';
+                cell.appendChild(dot);
+            }
+
+            cell.addEventListener('click', () => {
+                selectedDate = new Date(viewYear, viewMonth, day);
+                renderAll();
+            });
+
+            grid.appendChild(cell);
+        }
+    }
+
+    function changeMonth(delta) {
+        viewMonth += delta;
+        if (viewMonth < 0) {
+            viewMonth = 11;
+            viewYear--;
+        } else if (viewMonth > 11) {
+            viewMonth = 0;
+            viewYear++;
+        }
+        renderCalendar();
+    }
+
+    function goToday() {
+        viewYear = todayObj.getFullYear();
+        viewMonth = todayObj.getMonth();
+        selectedDate = new Date(
+            todayObj.getFullYear(),
+            todayObj.getMonth(),
+            todayObj.getDate()
+        );
+        renderAll();
+    }
+
+
+    /* =========================================================
+       ROUTINE RENDER
+    ========================================================= */
+
+    function renderRoutine() {
+        const dayIndex = selectedDate.getDay();
+        const dayName = DAY_NAMES[dayIndex];
+        const dateKey = formatDateKey(selectedDate);
+        const tasks = ROUTINE_BY_DAY[dayIndex] || [];
+        const dayDone = doneMap[dateKey] || {};
+
+        document.getElementById('selectedDayName').textContent = dayName;
+
+        document.getElementById('selectedDayDate').textContent = selectedDate.toLocaleDateString(
+            'en-US',
             {
-                weekday: "short",
-                month: "short",
-                day: "numeric"
+                month: 'long',
+                day: 'numeric',
+                year: 'numeric'
             }
         );
 
-
-    const hour =
-        now.getHours();
-
-
-    let greeting;
-
-
-    if (
-        hour < 12
-    ) {
-
-        greeting =
-            "MORNING FLOW";
-
-    }
-
-    else if (
-        hour < 17
-    ) {
-
-        greeting =
-            "AFTERNOON FOCUS";
-
-    }
-
-    else {
-
-        greeting =
-            "EVENING CHILL";
-
-    }
-
-
-    document.getElementById(
-        "greet-text"
-    ).innerText =
-        greeting;
-
-
-    refreshActiveTask();
-
-}
-
-
-/* =========================================================
-   REFRESH ACTIVE TASK
-========================================================= */
-
-function refreshActiveTask() {
-
-    if (
-        currentDay !==
-        getDayName(
-            new Date()
-        )
-    ) {
-
-        return;
-
-    }
-
-
-    const tasks =
-        schedule[
-            currentDay
-        ] || [];
-
-
-    const cards =
-        document.querySelectorAll(
-            ".task-content"
-        );
-
-
-    cards.forEach(
-        (
-            card,
-            index
-        ) => {
-
-            const item =
-                tasks[index];
-
-
-            if (!item) {
-
-                return;
-
-            }
-
-
-            const active =
-                isTaskActive(
-                    item
-                );
-
-
-            const dateKey =
-                getDateKey(
-                    selectedDate
-                );
-
-
-            const completed =
-                completedTasks[
-                    dateKey
-                ] || [];
-
-
-            if (
-                completed.includes(
-                    index
-                )
-            ) {
-
-                return;
-
-            }
-
-
-            const status =
-                card.querySelector(
-                    ".info p"
-                );
-
-
-            if (
-                active
-            ) {
-
-                card.classList.add(
-                    "active-now"
-                );
-
-                status.innerText =
-                    "● ACTIVE NOW";
-
-            }
-
-            else {
-
-                card.classList.remove(
-                    "active-now"
-                );
-
-                status.innerText =
-                    "SCHEDULED";
-
-            }
-
-        }
-    );
-
-}
-
-
-/* =========================================================
-   EMAIL REPORT
-========================================================= */
-
-function mailReport() {
-
-    const dateKey =
-        getDateKey(
-            selectedDate
-        );
-
-
-    const tasks =
-        schedule[
-            currentDay
-        ] || [];
-
-
-    const completed =
-        completedTasks[
-            dateKey
-        ] || [];
-
-
-    const dailyExpenses =
-        expenses[
-            dateKey
-        ] || [];
-
-
-    let total =
-        0;
-
-
-    dailyExpenses.forEach(
-        expense => {
-
-            total +=
-                Number(
-                    expense.amount
-                );
-
-        }
-    );
-
-
-    const completedText =
-        completed.length
-
-            ? completed
-                .map(
-                    index =>
-                        `✓ ${tasks[index].task}`
-                )
-                .join("\n")
-
-            : "None";
-
-
-    const expenseText =
-        dailyExpenses.length
-
-            ? dailyExpenses
-                .map(
-                    expense =>
-                        `${expense.name}: ৳${expense.amount}`
-                )
-                .join("\n")
-
-            : "None";
-
-
-    const body =
-
-        `Routine Report\n\n` +
-
-        `Date: ${
-            formatDate(
-                selectedDate
-            )
-        }\n\n` +
-
-        `COMPLETED TASKS\n` +
-
-        completedText +
-
-        `\n\nDAILY EXPENSES\n` +
-
-        expenseText +
-
-        `\n\nTOTAL COST: ৳${total}`;
-
-
-    window.location.href =
-
-        `mailto:aliazam70123@gmail.com` +
-
-        `?subject=` +
-
-        encodeURIComponent(
-            `Routine Report - ${formatDate(selectedDate)}`
-        ) +
-
-        `&body=` +
-
-        encodeURIComponent(
-            body
-        );
-
-}
-
-
-/* =========================================================
-   ENTER KEY FOR COST
-========================================================= */
-
-document.addEventListener(
-    "keydown",
-    function(event) {
-
-        if (
-            event.key !== "Enter"
-        ) {
-
+        document.getElementById('routineHeading').textContent = `${dayName} Routine`;
+
+        document.getElementById('routineSubheading').textContent =
+            tasks.length > 0
+                ? `${DAY_SCHEDULE_LABEL[dayIndex]} • Click card to mark complete`
+                : 'No scheduled sessions for this day';
+
+        const listEl = document.getElementById('routineList');
+        listEl.innerHTML = '';
+
+        if (tasks.length === 0) {
+            listEl.innerHTML = `
+                <div class="empty-state">
+                    <div class="emoji">🌿</div>
+                    <h3>No Routine Scheduled</h3>
+                    <p>Enjoy your open schedule on ${dayName}.</p>
+                </div>
+            `;
+            updateSummary(tasks, dayDone);
             return;
-
         }
 
+        const now = new Date();
+        const currentMinutes = now.getHours() * 60 + now.getMinutes();
+        const isTodaySelected = isSameDay(selectedDate, todayObj);
 
-        const active =
-            document.activeElement;
+        tasks.forEach(task => {
+            const isDone = Boolean(dayDone[task.id]);
+            const isActiveNow =
+                isTodaySelected &&
+                currentMinutes >= task.startMinutes &&
+                currentMinutes < task.endMinutes;
 
+            const item = document.createElement('div');
+            item.className = 'task-item';
 
-        if (
-            active &&
-            (
-                active.id === "cost-name" ||
-                active.id === "cost-amount"
-            )
-        ) {
+            item.innerHTML = `
+                <div class="time-label">${task.time}</div>
+                <div class="task-content ${isDone ? 'done' : ''} ${isActiveNow ? 'active-now' : ''}">
+                    <div class="task-left">
+                        <div class="icon-box">${task.icon}</div>
+                        <div class="info">
+                            <h4>${task.title}</h4>
+                            <p>${isActiveNow ? 'ACTIVE NOW • ' : ''}${task.subtitle}</p>
+                        </div>
+                    </div>
+                    <div class="checkbox"></div>
+                </div>
+            `;
 
-            addCost();
+            item.querySelector('.task-content').addEventListener('click', () => {
+                if (!doneMap[dateKey]) doneMap[dateKey] = {};
+                doneMap[dateKey][task.id] = !doneMap[dateKey][task.id];
+                saveState();
+                renderRoutine();
+            });
 
-        }
+            listEl.appendChild(item);
+        });
 
+        updateSummary(tasks, dayDone);
     }
-);
 
 
-/* =========================================================
-   INITIALIZE
-========================================================= */
+    /* =========================================================
+       EXPENSES & SUMMARY
+    ========================================================= */
 
-function initialize() {
+    function renderExpenses() {
+        const dateKey = formatDateKey(selectedDate);
+        const items = costsMap[dateKey] || [];
+        const listEl = document.getElementById('costList');
+        const total = items.reduce((sum, item) => sum + Number(item.amount || 0), 0);
 
-    const today =
-        new Date();
+        document.getElementById('costDateLabel').textContent = selectedDate.toLocaleDateString(
+            'en-US',
+            {
+                month: 'short',
+                day: 'numeric',
+                year: 'numeric'
+            }
+        );
 
+        document.getElementById('costTotal').textContent = `৳${total}`;
+        document.getElementById('statTotalCost').textContent = `৳${total}`;
 
-    currentDate =
-        new Date(today);
+        if (items.length === 0) {
+            listEl.innerHTML = `<div class="no-cost">No expenses logged for this day yet.</div>`;
+            return;
+        }
 
+        listEl.innerHTML = '';
+        items.forEach((item, idx) => {
+            const row = document.createElement('div');
+            row.className = 'cost-item';
+            row.innerHTML = `
+                <div class="cost-icon">💳</div>
+                <div class="cost-info">
+                    <div class="cost-name">${item.name}</div>
+                </div>
+                <div class="cost-amount">৳${item.amount}</div>
+                <button class="delete-cost" onclick="deleteExpense(${idx})" title="Remove">✕</button>
+            `;
+            listEl.appendChild(row);
+        });
+    }
 
-    selectedDate =
-        new Date(today);
+    function addExpense() {
+        const nameInput = document.getElementById('costName');
+        const amountInput = document.getElementById('costAmount');
 
+        const name = nameInput.value.trim();
+        const amount = parseFloat(amountInput.value);
 
-    currentDay =
-        getDayName(today);
+        if (!name || isNaN(amount) || amount <= 0) return;
 
+        const dateKey = formatDateKey(selectedDate);
+        if (!costsMap[dateKey]) costsMap[dateKey] = [];
 
-    renderCalendar();
+        costsMap[dateKey].push({ name, amount });
+        saveState();
 
-    updateSelectedDay();
+        nameInput.value = '';
+        amountInput.value = '';
+        renderExpenses();
+    }
 
-    renderRoutine();
+    function deleteExpense(index) {
+        const dateKey = formatDateKey(selectedDate);
+        if (!costsMap[dateKey]) return;
 
-    renderCosts();
+        costsMap[dateKey].splice(index, 1);
+        saveState();
+        renderExpenses();
+    }
 
-    tick();
+    function updateSummary(tasks, dayDone) {
+        const totalTasks = tasks.length;
+        const completedTasks = tasks.filter(t => Boolean(dayDone[t.id])).length;
+        const dayIndex = selectedDate.getDay();
 
-}
+        document.getElementById('statTotalTasks').textContent = totalTasks;
+        document.getElementById('statCompletedTasks').textContent = completedTasks;
+        document.getElementById('statDaySchedule').textContent = DAY_SCHEDULE_LABEL[dayIndex];
+        updateIncomeSummaryCard();
+    }
 
+    function copyDayReport() {
+        const dateKey = formatDateKey(selectedDate);
+        const dayIndex = selectedDate.getDay();
+        const dayName = DAY_NAMES[dayIndex];
+        const tasks = ROUTINE_BY_DAY[dayIndex] || [];
+        const dayDone = doneMap[dateKey] || {};
+        const expenses = costsMap[dateKey] || [];
+        const totalSpend = expenses.reduce((sum, item) => sum + Number(item.amount || 0), 0);
+        const totalIncome = tuitionIncomeList.reduce((sum, item) => sum + Number(item.amount || 0), 0);
+        const { totalCost: monthCost } = getMonthCostData(selectedDate.getFullYear(), selectedDate.getMonth());
+        const monthIncome = getMonthIncomeTotal(selectedDate.getFullYear(), selectedDate.getMonth());
+        const monthSaves = monthIncome - monthCost;
 
-initialize();
+        const taskLines = tasks.length
+            ? tasks.map(t => `- [${dayDone[t.id] ? 'x' : ' '}] ${t.time}: ${t.title}`).join('\n')
+            : '- No scheduled sessions';
 
+        const attendanceLines = STUDENTS
+            .map(s => `- ${s.name}: ${getStudentTotalDays(s.name)} / ${TARGET_DAYS} days`)
+            .join('\n');
 
-/* =========================================================
-   CLOCK UPDATE
-========================================================= */
+        const report = [
+            `Routine OS Summary — ${dayName}, ${selectedDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`,
+            taskLines,
+            `Attendance (12-Day Target):\n${attendanceLines}`,
+            `Income from tuition: ৳${totalIncome}`,
+            `Total Spend (Day): ৳${totalSpend}`,
+            `Month Cost: ৳${monthCost} | Month Saves: ${formatCurrencySigned(monthSaves)}`
+        ].join('\n');
 
-setInterval(
-    tick,
-    1000
-);
+        navigator.clipboard?.writeText(report).catch(() => {});
+    }
+
+    function renderAll() {
+        renderCalendar();
+        renderRoutine();
+        renderExpenses();
+        updateIncomeSummaryCard();
+    }
+
+    updateClockAndHeader();
+    setInterval(updateClockAndHeader, 1000);
+    renderAll();
 
 </script>
 
